@@ -1,0 +1,13 @@
+290ac8fcd57b76a77fa711e4bc8aa832 *DESCRIPTION
+af248bfc1b7ce58e296e59765c75e590 *NAMESPACE
+e9ef601c189c10b7cb8948bff8f74333 *NEWS.md
+04bae59c0e3fa32395a9d050e998651c *R/RcppExports.R
+95af17e511ac78c410721305f68ff90e *R/imuf-package.R
+84f3bf8d4c615353536ee29978e6bced *README.md
+053ec042b6e198648eb70c0d7112f3ae *man/compUpdate.Rd
+017a5912e272f14ab1a38d6c971fbadd *man/figures/logo.png
+66fce8e474ffc5d5b2928be9bcef5187 *man/imuf-package.Rd
+bf47e5f66f3599d8ff9b854d7442bb9a *src/RcppExports.cpp
+38f07aa7e710c84b10376187719ef6dc *src/imuf.cpp
+f1883294c2a7e543d0cda73d830a1162 *tests/testthat.R
+7dedf82770ff59200905cea3614f8e78 *tests/testthat/test-imuf.R
