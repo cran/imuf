@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{compUpdate}
 \alias{compUpdate}
-\title{'compUpdate' update orientation with 3-axis acc and gyr data}
+\title{Update orientation with 3-axis acc and gyr data}
 \usage{
 compUpdate(acc, gyr, dt, initQuat, gain)
 }
@@ -21,7 +21,9 @@ compUpdate(acc, gyr, dt, initQuat, gain)
 A numeric 4-vector of the ending orientation in quaternion
 }
 \description{
-'compUpdate' update orientation with 3-axis acc and gyr data
+\code{compUpdate()} uses complementary filtering to update the orientation, given
+an initial orientation, readings of a 3-axis accelerometer and a 3-axis
+gyroscope. time duration, and a gain factor
 }
 \examples{
 compUpdate(c(0, 0, -1), c(1, 0, 0), 0.1, c(1, 0, 0, 0), 0.1)

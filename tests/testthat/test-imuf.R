@@ -55,3 +55,10 @@ test_that("compUpdate works for gain = 1", {
   qout <- compUpdate(acc, gyr, dt, initQ, gain)
   expect_equal(qout, c(1/sqrt(2), 1/sqrt(2), 0, 0))
 })
+
+test_that("rotV works for rotating a east vector by 90 deg about north", {
+  q <- c(cos(pi/4), sin(pi/4), 0, 0)
+  vin <- c(0, 1, 0)
+  vout <- rotV(q, vin)
+  expect_equal(vout, c(0, 0, 1))
+})

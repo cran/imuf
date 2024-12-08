@@ -26,9 +26,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rotV
+NumericVector rotV(NumericVector quat, NumericVector vin);
+RcppExport SEXP _imuf_rotV(SEXP quatSEXP, SEXP vinSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type quat(quatSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type vin(vinSEXP);
+    rcpp_result_gen = Rcpp::wrap(rotV(quat, vin));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_imuf_compUpdate", (DL_FUNC) &_imuf_compUpdate, 5},
+    {"_imuf_rotV", (DL_FUNC) &_imuf_rotV, 2},
     {NULL, NULL, 0}
 };
 

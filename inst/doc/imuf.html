@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>imuf</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">imuf</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The imuf package performs sensor fusion for an inertial measuremnt
+unit (IMU) that has a 3-axis accelerometer and a 3-axis gyroscope.</p>
+<p>Specifically, <code>compUpdate()</code> uses <a href="https://stanford.edu/class/ee267/notes/ee267_notes_imu.pdf">complementary
+filtering</a> to estimate the sensor’s final orientation, given its
+initial orientation, sensor readings of accelerations and angular
+velocities at a time point, time duration between data samples, and a
+gain factor (between 0 and 1) specifying the weighting of the
+accelerometer measurements.</p>
+<p>This vignette describes how one may use the imuf package to analyze a
+real world dataset of IMU measurements.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(imuf)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The <code>walking_shin_1</code> dataset contains 31,946 rows of
+sensor readings. Each reading consists of 3 accelerations (m/s^2) and 3
+angular velocities (rad/sec) measurements for north (x), east (y), and
+down (z) directions. The data sampling rate is 50 Hz, which translates
+to a time duration of 0.02 second between readings.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">head</span>(walking_shin_1)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 6</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;   acc_x acc_y  acc_z   gyr_x     gyr_y   gyr_z</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; 1 -1.44 0.803 -10.0  -0.0238  0.00244  -0.0406</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; 2 -1.40 0.785  -9.94 -0.0177  0.00336  -0.0211</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; 3 -1.36 0.784  -9.95 -0.0195  0.00183  -0.0159</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; 4 -1.33 0.746  -9.97 -0.0223 -0.00275  -0.0162</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 5 -1.32 0.724  -9.96 -0.0241 -0.000916 -0.0238</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 6 -1.39 0.785  -9.97 -0.0186 -0.00367  -0.0312</span></span></code></pre></div>
+<p>To prepare for subsequent analyses, we first convert the dataframe to
+a list:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>lst_ned_in <span class="ot">&lt;-</span> <span class="fu">as.list</span>(<span class="fu">as.data.frame</span>(<span class="fu">t</span>(walking_shin_1))) <span class="sc">%&gt;%</span> unname</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">head</span>(lst_ned_in, <span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1] -1.440710900  0.803254660 -9.996989000 -0.023823744  0.002443461</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; [6] -0.040622540</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; [1] -1.398812300  0.785298170 -9.943120000 -0.017715093  0.003359759</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; [6] -0.021074850</span></span></code></pre></div>
+</div>
+<div id="orientation-update" class="section level2">
+<h2>Orientation update</h2>
+<p>We will now look at how to update our sensor orientation given the
+IMU measurements. We will do that in 3 steps:</p>
+<ul>
+<li>Create a helper function</li>
+<li>Update sensor orientation for one IMU reading</li>
+<li>Update sensor orientation for a list of IMU readings</li>
+</ul>
+<div id="helper-function" class="section level3">
+<h3>Helper function</h3>
+<p>We first wrap <code>compUpdate()</code> in a helper function:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>myCompUpdate <span class="ot">&lt;-</span> <span class="cf">function</span>(initQ, accgyr) {</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  acc <span class="ot">&lt;-</span> accgyr[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  gyr <span class="ot">&lt;-</span> accgyr[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  dt <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">50</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  gain <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  orientation <span class="ot">&lt;-</span> <span class="fu">compUpdate</span>(acc, gyr, dt, initQ, gain)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  orientation</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="orientation-update-for-one-imu-reading" class="section level3">
+<h3>Orientation update for one IMU reading</h3>
+<p>Next, we use the helper function to process the first two sensor
+readings in our dataset. For the processing of the first reading, we
+simply assume that the sensor’s initial orientation is aligned with the
+world frame. However, for the procesing of the second reading, we take
+the output of the processing of the first reading as the inital
+orientation.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>(q1 <span class="ot">&lt;-</span> <span class="fu">myCompUpdate</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), lst_ned_in[[<span class="dv">1</span>]]))</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; [1]  0.9999657701 -0.0041990423 -0.0071175965 -0.0004080098</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>(q2 <span class="ot">&lt;-</span> <span class="fu">myCompUpdate</span>(q1, lst_ned_in[[<span class="dv">2</span>]]))</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; [1]  0.9998798598 -0.0078567189 -0.0133472834 -0.0006228269</span></span></code></pre></div>
+</div>
+<div id="orientation-update-for-multiple-imu-readings" class="section level3">
+<h3>Orientation update for multiple IMU readings</h3>
+<p>Now we will process the entire list of IMU readings. To do that we
+take advantage of <code>purrr::accumulate()</code> which automatically
+takes the output of the current iteration as the input to the next
+iteration:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>orientations <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">accumulate</span>(lst_ned_in, myCompUpdate, <span class="at">.init =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">head</span>(orientations, <span class="dv">5</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; [1] 1 0 0 0</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; [1]  0.9999657701 -0.0041990423 -0.0071175965 -0.0004080098</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; [1]  0.9998798598 -0.0078567189 -0.0133472834 -0.0006228269</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; [[4]]</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; [1]  0.9997609096 -0.0111531161 -0.0187912870 -0.0007868925</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; [[5]]</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; [1]  0.9996243467 -0.0139555857 -0.0235688255 -0.0009578893</span></span></code></pre></div>
+<p>Note that the length of the output list is one more than that of the
+input list, with the extra element being the initial quaternion of
+<code>c(1, 0, 0, 0)</code>.</p>
+</div>
+</div>
+<div id="application-of-orientations" class="section level2">
+<h2>Application of orientations</h2>
+<p>The result of the previous step is a list of sensor orientations
+expressed as unit 4-vector rotation quaternions. We can use these
+rotation quaternions to transform any vector in the sensor’s body frame
+into the world frame.</p>
+<p>Since the <code>walking_shin_1</code> dataset comes a sensor strapped
+onto the shin of a subject while she walked for 10 minutes, as an
+illustration we will use the sensor orientations to study the turns
+taken by the subject during her journey.</p>
+<p>We will do that in 3 steps:</p>
+<ul>
+<li>Use <code>rotV()</code> to transform a vector from body frame to
+world frame</li>
+<li>Create a function to calculate the turn angle</li>
+<li>Compute the turn angles at every time point</li>
+</ul>
+<div id="vector-transformation" class="section level3">
+<h3>Vector transformation</h3>
+<p>We can transform any vector from the body frame to the world frame by
+rotating the vector by the orientation of the sensor.
+<code>rotV()</code> performs such a rotation. For example, rotating a
+vector pointing in the east-direction (<code>c(0, 1, 0)</code>) about
+the north-direction by 90 degrees results in a vector pointing in the
+down-direction (<code>c(0, 0, 1)</code>):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">cos</span>(pi<span class="sc">/</span><span class="dv">4</span>), <span class="fu">sin</span>(pi<span class="sc">/</span><span class="dv">4</span>), <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>vin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">rotV</span>(q, vin)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.000000e+00 2.220446e-16 1.000000e+00</span></span></code></pre></div>
+</div>
+<div id="turn-angle-function" class="section level3">
+<h3>Turn angle function</h3>
+<p>Next, we write a function to compute the turn angle from the rotated
+vector:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>getTurnAngle <span class="ot">&lt;-</span> <span class="cf">function</span>(quat) {</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="co"># a function to rotate c(1, 0, 0) by quat</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="co"># and then compute the angle between (1, 0, 0) and the rotated vector</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="co"># projected onto the n-e plane and </span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="co"># this construct is to detect turns</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  rotVec <span class="ot">&lt;-</span> <span class="fu">rotV</span>(quat, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> <span class="fu">atan2</span>(rotVec[<span class="dv">2</span>], rotVec[<span class="dv">1</span>]) <span class="sc">*</span> <span class="dv">180</span> <span class="sc">/</span> pi</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  theta</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="turn-angles-for-all-time-points" class="section level3">
+<h3>Turn angles for all time points</h3>
+<p>Lastly, we compute all the turn angles using
+<code>purrr::map()</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>turnAngles <span class="ot">&lt;-</span> orientations <span class="sc">%&gt;%</span> purrr<span class="sc">::</span><span class="fu">map</span>(getTurnAngle) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">head</span>(turnAngles)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; [1]  0.00000000 -0.04333247 -0.05936656 -0.06618022 -0.07211392 -0.08646343</span></span></code></pre></div>
+</div>
+<div id="analyses-of-turn-angles" class="section level3">
+<h3>Analyses of turn angles</h3>
+<p>Let’s take a look at the results:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co"># create a vector of time stamps in minutes</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co"># note that sampling frequency is 50 Hz</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(turnAngles) <span class="sc">/</span> <span class="dv">50</span> <span class="sc">/</span> <span class="dv">60</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> turnAngles)) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>There are some sharp jumps in the turn angles. And the reason for
+that is <code>atan2()</code> restricts the angles to -180 and +180. So
+an angle of 181 becomes -179 breaking continuity. We can use a function
+to remove those artificial jumps and maintain continuity:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># a function to remove artificial jumps in turn angles</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>rmJumps <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  firstDiffs <span class="ot">&lt;-</span> <span class="fu">diff</span>(theta)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  bigDiffIdx <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">abs</span>(firstDiffs) <span class="sc">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="co">#</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="co"># fix #1</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  theta[(bigDiffIdx[<span class="dv">1</span>]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>bigDiffIdx[<span class="dv">2</span>]] <span class="ot">&lt;-</span> theta[(bigDiffIdx[<span class="dv">1</span>]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>bigDiffIdx[<span class="dv">2</span>]] <span class="sc">+</span> <span class="dv">360</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="co">#</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  <span class="co"># fix #2</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>  theta[(bigDiffIdx[<span class="dv">3</span>]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>bigDiffIdx[<span class="dv">4</span>]] <span class="ot">&lt;-</span> theta[(bigDiffIdx[<span class="dv">3</span>]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>bigDiffIdx[<span class="dv">4</span>]] <span class="sc">+</span> <span class="dv">360</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>  <span class="co">#</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>  <span class="co"># fix #3</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>  theta[(bigDiffIdx[<span class="dv">4</span>]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span><span class="fu">length</span>(theta)] <span class="ot">&lt;-</span> theta[(bigDiffIdx[<span class="dv">4</span>]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span><span class="fu">length</span>(theta)] <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span><span class="dv">360</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>  theta</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>}</span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co"># remove artificial jumps</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>turnAnglesNoJumps <span class="ot">&lt;-</span> <span class="fu">rmJumps</span>(turnAngles)</span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="co"># plot it</span></span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> turnAnglesNoJumps)) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>There remains some jumps in turn angles. But these jumps are not
+artificial. They reflect the actual behaviors of the subject during her
+journey. For example, at 5 minute mark, the data suggests she made a 180
+degree turn. And this can indeed be confirmed by the <a href="http://wifo5-14.informatik.uni-mannheim.de/sensor/dataset/realworld2016/proband1/videos/video_walking.webm">video</a>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co"># zero in on +/- 10 sec around 5 minute mark</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>idx_5min <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">14800</span><span class="sc">:</span><span class="dv">15750</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>x_5min <span class="ot">&lt;-</span> x[idx_5min]</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>turn_5min <span class="ot">&lt;-</span> turnAnglesNoJumps[idx_5min]</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># plot it</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x_5min, <span class="at">y =</span> turn_5min)) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

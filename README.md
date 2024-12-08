@@ -38,6 +38,7 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(imuf)
+#
 acc <- c(0, 0, -1)         # accelerometer NED readings in g (~ 9.81 m/s^2) 
 gyr <- c(1, 0, 0)          # gyroscope NED readings in radians per second
 deltat <- 0.1              # time duration in seconds
@@ -47,4 +48,11 @@ gain <- 0.1                # a weight (0-1) given to the accelerometer readings
 # final orientation expressed as a quaternion
 (final <- compUpdate(acc, gyr, deltat, initq, gain))
 #> [1] 0.99898767 0.04498481 0.00000000 0.00000000
+#
+#
+# rotate a vector pointing east by 90 deg about north
+q <- c(cos(pi/4), sin(pi/4), 0, 0)   # quaternion to rotate 90 deg about north
+vin <- c(0, 1, 0)                    # vector in east direction
+(vout <- rotV(q, vin))               # after rotation, vector is in down direction
+#> [1] 0.000000e+00 2.220446e-16 1.000000e+00
 ```

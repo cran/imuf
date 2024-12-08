@@ -2,7 +2,12 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #'
-#' 'compUpdate' update orientation with 3-axis acc and gyr data
+#' Update orientation with 3-axis acc and gyr data
+#'
+#' @description
+#' `compUpdate()` uses complementary filtering to update the orientation, given
+#' an initial orientation, readings of a 3-axis accelerometer and a 3-axis
+#' gyroscope. time duration, and a gain factor
 #'
 #' @param acc A numeric 3-vector of 3-axis accelerometer readings in g
 #' @param gyr A numeric 3-vector of 3-axis gyroscope readings in rad/sec
@@ -17,5 +22,26 @@
 #'
 compUpdate <- function(acc, gyr, dt, initQuat, gain) {
     .Call(`_imuf_compUpdate`, acc, gyr, dt, initQuat, gain)
+}
+
+#'
+#' Rotate a 3-vector by a quaternion
+#'
+#' @description
+#' `rotV()` rotates a 3-vector by a quaternion expressed as a unit 4-vector in
+#' (w,x,y,z) convention
+#'
+#' @param quat A numeric unit 4-vector (w,x,y,z) for a rotation quaternion
+#' @param vin A numeric 3-vector to be rotated by quat
+#' @returns A numeric 3-vector after the rotation
+#' @export
+#'
+#' @examples
+#' q <- c(cos(pi/4), sin(pi/4), 0, 0)
+#' vin <- c(0, 1, 0)
+#' rotV(q, vin)
+#'
+rotV <- function(quat, vin) {
+    .Call(`_imuf_rotV`, quat, vin)
 }
 
