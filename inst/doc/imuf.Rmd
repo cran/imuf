@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 ## Introduction
 
-The imuf package performs sensor fusion for an inertial measuremnt unit (IMU) that has a 3-axis accelerometer and a 3-axis gyroscope.
+The imuf package performs sensor fusion for an inertial measurement unit (IMU) that has a 3-axis accelerometer and a 3-axis gyroscope.
 
 Specifically, `compUpdate()` uses [complementary filtering](https://stanford.edu/class/ee267/notes/ee267_notes_imu.pdf) to estimate the sensor's final orientation, given its initial orientation, sensor readings of accelerations and angular velocities at a time point, time duration between data samples, and a gain factor (between 0 and 1) specifying the weighting of the accelerometer measurements.
 

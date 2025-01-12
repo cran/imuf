@@ -22,5 +22,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Felix Chan \email{chanfelix@gmail.com} [copyright holder]
 
+Other contributors:
+\itemize{
+  \item Ricardo Cabello ('three.js' JavaScript library) [copyright holder]
+}
+
 }
 \keyword{internal}

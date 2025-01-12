@@ -1,0 +1,78 @@
+---
+title: "animate_imu"
+output: rmarkdown::html_vignette
+description:
+  Learn how to use `animate_imu()` function to generate a 3-D animation of a 
+  time series of orientations of an inertial measurement unit.
+vignette: >
+  %\VignetteIndexEntry{animate_imu}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+## Introduction
+
+This vignette describes how one may generate a 3-D animation of a time series of orientations of an inertial measurement unit (IMU).
+
+We first follow the steps described in `vignette("imuf")` to generate a time series of orientations using the `walking_shin_1` dataset:
+
+```{r setup, message = FALSE}
+library(imuf)
+library(purrr)
+#
+lst_ned_in <- as.list(as.data.frame(t(walking_shin_1))) %>% unname
+dt <- 1/50
+#
+myCompUpdate <- function(initQ, accgyr) {
+  acc <- accgyr[1:3]
+  gyr <- accgyr[4:6]
+  gain <- 0.1
+  orientation <- compUpdate(acc, gyr, dt, initQ, gain)
+  orientation
+}
+#
+orientations <- purrr::accumulate(lst_ned_in, myCompUpdate, .init = c(1, 0, 0, 0))
+#
+head(orientations)
+```
+
+## 3-D animation of IMU orientations
+
+Next we use the `animate_imu()` function to visualize a 3-D animation of the orienations.
+
+```{r}
+#
+# time increment for animation needs to be in milli-seconds
+animate_imu(orientations, dt*1000)
+```
+
+
+## 3-D animation of IMU orientations within Shiny
+
+We will now illustrate how one may display the 3-D animation in Shiny.
+
+```{r}
+library(shiny)
+
+ui = pageWithSidebar(
+  headerPanel("render an IMU animation example"),
+  sidebarPanel(actionButton("do", "See animation")),
+  mainPanel(animate_imuOutput('orientations'))
+)
+
+server = function(input, output, session) {
+  observeEvent(input$do, {
+    output$orientations <- renderAnimate_imu(
+      animate_imu(orientations, dt*1000)
+    )
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
