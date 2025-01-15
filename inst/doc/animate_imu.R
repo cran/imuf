@@ -29,21 +29,21 @@ head(orientations)
 animate_imu(orientations, dt*1000)
 
 ## -----------------------------------------------------------------------------
-library(shiny)
+if (interactive()) {
+  library(shiny)
 
-ui = pageWithSidebar(
-  headerPanel("render an IMU animation example"),
-  sidebarPanel(actionButton("do", "See animation")),
-  mainPanel(animate_imuOutput('orientations'))
-)
-
-server = function(input, output, session) {
-  observeEvent(input$do, {
+  ui = pageWithSidebar(
+    headerPanel("render an IMU animation example"),
+    sidebarPanel(),
+    mainPanel(animate_imuOutput('orientations'))
+  )
+  
+  server = function(input, output, session) {
     output$orientations <- renderAnimate_imu(
       animate_imu(orientations, dt*1000)
     )
-  })
+  }
+  
+  shinyApp(ui = ui, server = server)
 }
-
-shinyApp(ui = ui, server = server)
 

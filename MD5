@@ -1,8 +1,8 @@
-1615c08c50f56093ced84cd438d5ac72 *DESCRIPTION
+0ae15d66ba15b3154afc980ad8b1d247 *DESCRIPTION
 ee549dcc1ec7331b07ffd98462bcb843 *LICENSE
 a3f04be9e5ae7c0deec4db94489159ae *LICENSE.note
 32815077423b6c7ad9dfb06736892e9d *NAMESPACE
-6e3e0ee5e0dacdba441286338fea77ec *NEWS.md
+996e29ef2300581b99f1c591f12ef313 *NEWS.md
 96648569f5790ebe16d7c73c11183550 *R/RcppExports.R
 45bcbd8167fc8dd8e0e39ac3b14411eb *R/animate_imu.R
 95af17e511ac78c410721305f68ff90e *R/imuf-package.R
@@ -10,9 +10,9 @@ eb7e564a6b959c573fdff1744b525040 *R/walking_shin_1.R
 07785d6d471aa4da84639d8f158a73ac *README.md
 ecbf99f1f4d5185b0855f39bc20df9ce *build/vignette.rds
 5eddff1d91a6f1931aaa898f0811ff1f *data/walking_shin_1.rda
-71ea115293690aa7f15be026341e65cc *inst/doc/animate_imu.R
-9fb8af322bdaeb3e2537b4a2ba54e20e *inst/doc/animate_imu.Rmd
-f45470957a7daf2d58bd9a1970d2e608 *inst/doc/animate_imu.html
+be1e5f51d97ae4f91a6df816465805e1 *inst/doc/animate_imu.R
+55392bf7d5ff2a451100699cc9103c41 *inst/doc/animate_imu.Rmd
+aef379ace091f74fbe6c116fc433e3b5 *inst/doc/animate_imu.html
 c8ab7c9f8580bfde0a7c30211987a1a3 *inst/doc/imuf.R
 33cc7c6d0de7fada6c1c53007412f429 *inst/doc/imuf.Rmd
 09fe8d9b79c58209cb3cf89b932976ca *inst/doc/imuf.html
@@ -31,5 +31,5 @@ f7179051fec01de5ac1231b423dc0a5d *src/RcppExports.cpp
 f1883294c2a7e543d0cda73d830a1162 *tests/testthat.R
 e91d7a6d4bbfb2f41d5b28b8f47ead82 *tests/testthat/test-animate_imu.R
 33fc0b4b87be8b15de0b52a38e381e44 *tests/testthat/test-imuf.R
-9fb8af322bdaeb3e2537b4a2ba54e20e *vignettes/animate_imu.Rmd
+55392bf7d5ff2a451100699cc9103c41 *vignettes/animate_imu.Rmd
 33cc7c6d0de7fada6c1c53007412f429 *vignettes/imuf.Rmd

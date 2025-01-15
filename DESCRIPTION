@@ -1,6 +1,6 @@
 Package: imuf
 Title: Estimate Orientation of an Inertial Measurement Unit
-Version: 0.5.0
+Version: 0.5.1
 Authors@R: c(
     person("Felix", "Chan", , "chanfelix@gmail.com", role = c("aut", "cre", "cph")),
     person("Ricardo", "Cabello", role = "cph", comment = "'three.js' JavaScript library")
@@ -24,9 +24,9 @@ Depends: R (>= 2.10)
 LazyData: true
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2025-01-12 00:10:49 UTC; mkcha
+Packaged: 2025-01-15 13:47:24 UTC; mkcha
 Author: Felix Chan [aut, cre, cph],
   Ricardo Cabello [cph] ('three.js' JavaScript library)
 Maintainer: Felix Chan <chanfelix@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-01-12 00:30:02 UTC
+Date/Publication: 2025-01-15 19:40:10 UTC

@@ -1,4 +1,7 @@
+# imuf 0.5.1
+
 # imuf 0.5.0
+* Added animation of IMU orientations
 
 # imuf 0.4.0
 * Added `rotV()`to rotate a 3-vector by a quaternion
