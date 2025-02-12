@@ -70,7 +70,7 @@ myCompUpdate <- function(initQ, accgyr) {
 
 ### Orientation update for one IMU reading
 
-Next, we use the helper function to process the first two sensor readings in our dataset. For the processing of the first reading, we simply assume that the sensor's initial orientation is aligned with the world frame. However, for the procesing of the second reading, we take the output of the processing of the first reading as the inital orientation.
+Next, we use the helper function to process the first two sensor readings in our dataset. For the processing of the first reading, we simply assume that the sensor's initial orientation is aligned with the world frame. However, for the procesing of the second reading, we take the output of the processing of the first reading as the initial orientation.
 
 ```{r}
 (q1 <- myCompUpdate(c(1, 0, 0, 0), lst_ned_in[[1]]))

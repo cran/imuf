@@ -412,7 +412,7 @@ IMU measurements. We will do that in 3 steps:</p>
 readings in our dataset. For the processing of the first reading, we
 simply assume that the sensor’s initial orientation is aligned with the
 world frame. However, for the procesing of the second reading, we take
-the output of the processing of the first reading as the inital
+the output of the processing of the first reading as the initial
 orientation.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>(q1 <span class="ot">&lt;-</span> <span class="fu">myCompUpdate</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), lst_ned_in[[<span class="dv">1</span>]]))</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; [1]  0.9999657701 -0.0041990423 -0.0071175965 -0.0004080098</span></span>

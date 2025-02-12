@@ -1,3 +1,11 @@
+# imuf 0.6.0
+
+# imuf 0.6
+* A suite of functions for real time animation of an IMU on shiny.
+* Core functions: `imu_object()`, `imu_objectOutput()`, `renderImu_object()`
+* Support functions: `imu_proxy()`, `imu_send_data()`
+* `vignette("imu_object")` to implement real time animation of an IMU on shiny.
+
 # imuf 0.5.1
 
 # imuf 0.5.0

@@ -1,0 +1,159 @@
+---
+title: "imu_object"
+output: rmarkdown::html_vignette
+runtime: shiny
+description:
+  Learn how to use `imu_object()` to animate on shiny an inertial measurement 
+  unit (IMU) connected to a serial port in real time 
+vignette: >
+  %\VignetteIndexEntry{imu_object}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+This vignette describes a way to visualize on shiny a 3D animation of an inertial measurement unit (IMU) in real time. The setup requires:
+
+-   An IMU that is connected to the shiny server via a serial port (e.g. "COM3")
+-   Firmware that has been installed to write IMU measurements to a serial port. Each measurement is formatted as six comma-separated floats: acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z. The required firmware is, of course, hardware dependent.
+
+We assume both of these have been established.
+
+The core of the shiny logic consists of three parts:
+
+-   Read IMU data from a serial port and package it as inputs for `compUpdate()`
+-   Call `compUpdate()` to output a quaternion that represents the new orientation
+-   Call `imu_proxy()` and `imu_send_data()` to update the `imu_object()` widget with the quaternion
+
+The code of a possible implementation is shown in the next section We will explain this implementation in the sections following that.
+
+## Sample implementation
+
+```{r}
+if (interactive()) {
+  library(shiny)
+  library(serial)
+  library(imuf)
+  library(stringr)
+
+  getCon <- function(port) {
+    #
+    # set up connection for serial port
+    con <- serial::serialConnection(name = "testcon", port = port,
+                                    mode = "115200,n,8,1", newline = 1, translation = "crlf"
+    )
+    if (serial::isOpen(con)) close(con)
+    con
+  }
+  
+  readFromSerial <- function(con) {
+    #
+    # helper - function to convert sensor coord to NED
+    bmi2ned <- function(bmi) {
+      # convert bmi coord to ned coord
+      c(bmi[1], -bmi[2], -bmi[3])
+    }
+    #
+    # helper - function to convert deg to radian
+    toRad <- function(deg) {
+      deg * pi/180
+    }
+    #
+    # functions to process and validate data read from serial port
+    isValidLength <- function(x) {
+      minLength <- 32
+      if (x <= minLength) return(FALSE)
+      return(TRUE)
+    }
+    str2Vec <- function(x) {
+      #
+      # data from the IMU is a row of 6 comma-separated floats:
+      # accx, accy, accz, gyrx, gyry, gyrz
+      y <- stringr::str_split_1(x, ",") %>%
+        trimws() %>%
+        as.numeric() %>%
+        suppressWarnings()
+      y
+    }
+    isValidNumElements <- function(x) {
+      if (length(x) != 6) return(FALSE)
+      return(TRUE)
+    }
+  
+    while (TRUE) {
+      nInQ <- serial::nBytesInQueue(con)["n_in"]
+      if(!isValidLength(nInQ)) next
+      #
+      a <- serial::read.serialConnection(con) %>% str2Vec()
+      if(!isValidNumElements(a)) next
+      #
+      # a is the IMU output we want, exit infinite loop
+      break
+    }
+    # gyr from bmi270 IMU is in deg/sec, need to convert to rad/sec
+    list(acc = bmi2ned(a[1:3]),
+         gyr = bmi2ned(a[4:6]) %>% toRad())
+  }
+  
+  runshiny <- function(port) {
+    #
+    ui = fluidPage(
+      actionButton("do", "Start animation"),
+      imu_objectOutput("imu1")
+    )
+  
+    server = function(input, output, session) {
+  
+      # initial orientation
+      quat0 <- c(cos(pi/4), sin(pi/4), 0, 0)
+  
+      observeEvent(input$do, {
+        con <- getCon(port)
+        open(con)
+        quat <- quat0
+        while (TRUE) {
+          accgyr <- readFromSerial(con)
+          quat <- compUpdate(accgyr$acc, accgyr$gyr, dt = 1/50, initQ = quat, gain = 0.1)
+          imu_proxy("imu1") %>%
+            imu_send_data(data = quat)
+        }
+      })
+  
+      output$imu1 <- renderImu_object(
+        imu_object(quat0)
+      )
+    }
+    shinyApp(ui = ui, server = server)
+  }
+}
+```
+
+## IMU Data
+
+The goal of this step is to read the IMU data from a serial port, validate it, and package it so it can be used as input to `compUpdate()`.
+
+We first use the serial package to set up a serial port connection. We then enter into a loop to check if there is data and if so, whether it meets certain requirements.
+
+Once we confirm the data is legit, we exit the loop and proceed to package the IMU measurements into a list of two vectors: a numeric vector for the 3 accelerometer readings and another numeric vector for the 3 gyroscope readings. We take care to transform the data so it conforms to what `compUpdate()` expects. First, we transform the data from IMU's coordinate system to the north-east-down (NED) convention `compUpdate()` expects. Second, we convert the gyroscope readings from deg/sec to rad/sec again expected by `compUpdate()`. Whether these transformations are necessary depends on the IMU hardware and firmware you use.
+
+## Orientation update
+
+With the IMU readings appropriately packaged, we call `compUpdate()` to calculate a new rotation quaternion that represents the latest orientation of the IMU. Besides the accelerometer and gyroscope readings, there are two other inputs worth mentioning. The first is the time duration (in seconds). This should be the inverse of the sampling frequency (in Hz) of the IMU. The second is the initial orientation. This should be the quaternion output of the previous iteration. In other words, the quaternion of the last iteration becomes the initial orientation of the current iteration.
+
+## Animation update
+
+The last step is to update animation with the newly calculated rotation quaternion. We accomplish this by calling `imu_proxy()` and `imu_send_data()` in succession. Note that the input to `imu_proxy()` is the output id of the rendered `imu_object()`.
+
+## Visualization
+
+As you move the IMU, the animation shown should reflect the movement of the IMU. The following is an example of what an animation may look like:
+
+<iframe auto_size: true src="imu_object_mov.mp4" align="middle" frameborder="0" allowfullscreen></iframe>
